@@ -35,9 +35,9 @@ set ball.delta_y to 1
 ### Update
 
 ```applescript
-if isPressed (key: 'left') then:
+if is pressed (key: 'left') then:
   set paddle.x to paddle.x - paddle.speed
-if isPressed (key: 'right') then:
+if is pressed (key: 'right') then:
   set paddle.x to paddle.x + paddle.speed
 
 -- if ball is outside the screen, move it in & bounce the direction (or lose a life)
@@ -54,7 +54,7 @@ if ball.y > screen.height then:
   set ball.y to 0
   set lives to lives - 1
   if lives = 0 then:
-    gameOver()
+    game over
 
 -- bounce the ball off the paddle
 if collide (object: ball, with: paddle) then:
@@ -66,5 +66,5 @@ for each brick in bricks:
     bounce (object: ball, off: brick)
     destroy (object: brick)
     if count (collection: bricks) = 0 then:
-      gameOver ()
+      game over
 ```
