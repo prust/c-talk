@@ -17,16 +17,16 @@ set paddle.speed to 10
 -- create 30 bricks scattered around the top half of the screen
 set num_bricks_per_screen_w = screen.width / brick.width
 set num_bricks_per_screen_h = screen.height / brick.height
-set bricks to new collection(30)
+set bricks to new collection (size: 30)
 repeat 30x:
   set brick to new object (width: 20, height: 10, color: blue)
-  set brick.x to random(num_bricks_per_screen_w) * brick.width
-  set brick.y to random(num_bricks_per_screen_h / 2) * brick.height
+  set brick.x to random (max: num_bricks_per_screen_w) * brick.width
+  set brick.y to random (max: num_bricks_per_screen_h / 2) * brick.height
   put brick in bricks
 
 -- create a ball dropping at 45 degree angle
 set ball to new object (width: 5, height: 5, color: green, speed: 3)
-set ball.delta_x to random(2)
+set ball.delta_x to random (max: 2)
 if ball.delta_x = 0 then:
   set ball.delta_x to -1
 set ball.delta_y to 1
@@ -35,9 +35,9 @@ set ball.delta_y to 1
 ### Update
 
 ```applescript
-if isKeyPressed('left') then:
+if isPressed (key: 'left') then:
   set paddle.x to paddle.x - paddle.speed
-if isKeyPressed('right') then:
+if isPressed (key: 'right') then:
   set paddle.x to paddle.x + paddle.speed
 
 -- if ball is outside the screen, move it in & bounce the direction (or lose a life)
@@ -57,14 +57,14 @@ if ball.y > screen.height then:
     gameOver()
 
 -- bounce the ball off the paddle
-if collide(ball, paddle) then:
-  bounce(ball, paddle)
+if collide (object: ball, with: paddle) then:
+  bounce (object: ball, off: paddle)
   
 -- bounce the ball off bricks
 for each brick in bricks:
-  if collide(ball, brick) then:
-    bounce(ball, brick)
-    destroy(brick)
-    if count(bricks) = 0 then:
-      gameOver()
+  if collide (object: ball, with: brick) then:
+    bounce (object: ball, off: brick)
+    destroy (object: brick)
+    if count (collection: bricks) = 0 then:
+      gameOver ()
 ```
