@@ -17,7 +17,7 @@ set paddle.speed to 10
 -- create 30 bricks scattered around the top half of the screen
 set num_bricks_per_screen_w = screen.width / brick.width
 set num_bricks_per_screen_h = screen.height / brick.height
-set bricks to new collection (size: 30)
+set bricks to new collection (max size: 30)
 repeat 30x:
   set brick to new object (width: 20, height: 10, color: blue)
   set brick.x to random (max: num_bricks_per_screen_w) * brick.width
@@ -57,14 +57,14 @@ if ball.y > screen.height then:
     game over
 
 -- bounce the ball off the paddle
-if collide (object: ball, with: paddle) then:
-  bounce (object: ball, off: paddle)
+if collide (ball, with: paddle) then:
+  bounce (ball, off: paddle)
   
 -- bounce the ball off bricks
 for each brick in bricks:
-  if collide (object: ball, with: brick) then:
-    bounce (object: ball, off: brick)
-    destroy (object: brick)
-    if count (collection: bricks) = 0 then:
+  if collide (ball, with: brick) then:
+    bounce (ball, off: brick)
+    destroy (brick)
+    if count (bricks) = 0 then:
       game over
 ```
