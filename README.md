@@ -6,7 +6,7 @@ Example breakout clone:
 ### Setup
 
 ```applescript
-set player_lives to 3
+set lives to 3
   
 -- create paddle in the middle/bottom of the screen
 set paddle to new object (width: 70, height: 30, color: green)
@@ -17,10 +17,12 @@ set paddle.speed to 10
 -- create 30 bricks scattered around the top half of the screen
 set num_bricks_per_screen_w = screen.width / brick.width
 set num_bricks_per_screen_h = screen.height / brick.height
+set bricks to new collection(30)
 repeat 30x:
   set brick to new object (width: 20, height: 10, color: blue)
   set brick.x to random(num_bricks_per_screen_w) * brick.width
   set brick.y to random(num_bricks_per_screen_h / 2) * brick.height
+  put brick in bricks
 
 -- create a ball dropping at 45 degree angle
 set ball to new object (width: 5, height: 5, color: green, speed: 3)
@@ -33,15 +35,36 @@ set ball.delta_y to 1
 ### Update
 
 ```applescript
-if keyIsPressed('left') then:
+if isKeyPressed('left') then:
   set paddle.x to paddle.x - paddle.speed
-if keyIsPressed('right') then:
+if isKeyPressed('right') then:
   set paddle.x to paddle.x + paddle.speed
 
--- alternatively we could put walls/ceiling
--- otherwise we need to know which dimension to bounce the ball...
-if ball.isOutside(screen) then:
-  ball.moveInside(screen)
+-- if ball is outside the screen, move it in & bounce the direction (or lose a life)
+if ball.x < 0 then:
+  set ball.x to 0
+  set ball.delta_x to -ball.delta_x
+if ball.x > screen.width then:
+  set ball.x to screen.width
+  set ball.delta_x to -ball.delta_x
+if ball.y < 0 then:
+  set ball.y to 0
+  set ball.delta_y to -ball.delta_y
+if ball.y > screen.height then:
+  set ball.y to 0
+  set lives to lives - 1
+  if lives = 0 then:
+    gameOver()
 
-
+-- bounce the ball off the paddle
+if collide(ball, paddle) then:
+  bounce(ball, paddle)
+  
+-- bounce the ball off bricks
+for each brick in bricks:
+  if collide(ball, brick) then:
+    bounce(ball, brick)
+    destroy(brick)
+    if count(bricks) = 0 then:
+      gameOver()
 ```
