@@ -57,14 +57,14 @@ if ball.y > screen.height then:
     game over
 
 -- bounce the ball off the paddle
-if collide (ball, with: paddle) then:
-  bounce (ball, off: paddle)
+if collide ball (with: paddle) then:
+  bounce ball (off: paddle)
   
 -- bounce the ball off bricks
 for each brick in bricks:
-  if collide (ball, with: brick) then:
-    bounce (ball, off: brick)
-    destroy (brick)
-    if count (bricks) = 0 then:
+  if collide ball (with: brick) then:
+    bounce ball (off: brick)
+    destroy brick
+    if count bricks = 0 then:
       game over
 ```
