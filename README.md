@@ -1,5 +1,8 @@
-# red-planet.c
-Red Planet game engine, implemented in C using SDL, scriptable via cTalk
+# c-talk
+
+A simple language, loosely in the HyperTalk family, designed for simplicity of implementation and embedding in C.
+
+At this point, it is a largely imaginary language, but the below example should give an idea of what I would like the language to feel like.
 
 Example breakout clone:
 
@@ -14,7 +17,7 @@ set paddle.x to screen.width / 2 - paddle.width / 2
 set paddle.y to screen.height - paddle.height
 set paddle.speed to 10
 
--- create 30 bricks scattered around the top half of the screen
+-- create 30 bredricks scattered around the top half of the screen
 set num_bricks_per_screen_w = screen.width / brick.width
 set num_bricks_per_screen_h = screen.height / brick.height
 set bricks to new collection (max size: 30)
